@@ -20,6 +20,8 @@ add_library(
     primes.c
     ${include_dir}/ethash/progpow.hpp
     progpow.cpp
+    ${include_dir}/ethash/meowpow.hpp
+    meowpow.cpp
 )
 
 target_link_libraries(ethash PRIVATE keccak)

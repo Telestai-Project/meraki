@@ -2,7 +2,7 @@
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
-#include <ethash/progpow.hpp>
+#include <ethash/meowpow.hpp>
 
 #include "bit_manipulation.h"
 #include "endianness.hpp"
@@ -13,7 +13,7 @@
 
 #include <array>
 
-namespace progpow
+namespace meowpow
 {
 namespace
 {
@@ -26,16 +26,16 @@ namespace
 /// @param nonce        The 64-bit nonce.
 /// @param mix_hash     Additional 256-bits of data.
 /// @return             The 256-bit output of the hash function.
-void keccak_progpow_256(uint32_t* st) noexcept
+void keccak_meowpow_256(uint32_t* st) noexcept
 {
     ethash_keccakf800(st);
 }
 
-/// The same as keccak_progpow_256() but uses null mix
+/// The same as keccak_meowpow_256() but uses null mix
 /// and returns top 64 bits of the output being a big-endian prefix of the 256-bit hash.
 inline void keccak_progpow_64(uint32_t* st) noexcept
 {
-    keccak_progpow_256(st);
+    keccak_meowpow_256(st);
 }
 
 
@@ -156,17 +156,17 @@ static const uint32_t round_constants[22] = {
 };
 
 static const uint32_t meowcoin_kawpow[15] = {
-        0x00000072, //R
-        0x00000041, //A
-        0x00000056, //V
+        0x0000004D, //M
         0x00000045, //E
-        0x0000004E, //N
+        0x0000004F, //O
+        0x00000057, //W
         0x00000043, //C
         0x0000004F, //O
         0x00000049, //I
         0x0000004E, //N
-        0x0000004B, //K
-        0x00000041, //A
+        0x0000004D, //M
+        0x00000045, //E
+        0x0000004F, //O
         0x00000057, //W
         0x00000050, //P
         0x0000004F, //O
@@ -346,7 +346,7 @@ result hash(const epoch_context& context, int block_number, const hash256& heade
         state[i] = meowcoin_kawpow[i - 16];
 
     // Run keccak loop
-    keccak_progpow_256(state);
+    keccak_meowpow_256(state);
 
     hash256 output;
     for (int i = 0; i < 8; ++i)
@@ -421,7 +421,7 @@ result hash(const epoch_context_full& context, int block_number, const hash256& 
         state[i] = meowcoin_kawpow[i - 16];
 
     // Run keccak loop
-    keccak_progpow_256(state);
+    keccak_meowpow_256(state);
 
     hash256 output;
     for (int i = 0; i < 8; ++i)
@@ -479,7 +479,7 @@ bool verify(const epoch_context& context, int block_number, const hash256& heade
         state[i] = meowcoin_kawpow[i - 16];
 
     // Run keccak loop
-    keccak_progpow_256(state);
+    keccak_meowpow_256(state);
 
     hash256 output;
     for (int i = 0; i < 8; ++i)
@@ -541,7 +541,7 @@ hash256 hash_no_verify(const int& block_number, const hash256& header_hash,
         state[i] = meowcoin_kawpow[i - 16];
 
     // Run keccak loop
-    keccak_progpow_256(state);
+    keccak_meowpow_256(state);
 
     hash256 output;
     for (int i = 0; i < 8; ++i)

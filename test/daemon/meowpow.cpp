@@ -1,5 +1,5 @@
 
-#include <ethash/progpow.hpp>
+#include <ethash/meowpow.hpp>
 #include "../../test/unittests/helpers.hpp"
 #include <ethash/ethash.hpp>
 #include <ethash/ethash-internal.hpp>
@@ -131,7 +131,7 @@ int main(int argc, const char* argv[])
                 std::cout << "Building new context for epoch: " << epoch_number << std::endl;
             }
 
-            const auto result = progpow::hash(*context_light, (int) nHeight, header_hash, nNonce);
+            const auto result = meowpow::hash(*context_light, (int) nHeight, header_hash, nNonce);
             std::string share_met = "false";
             std::string block_met = "false";
             std::string mix_match = "false";

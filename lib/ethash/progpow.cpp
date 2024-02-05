@@ -145,17 +145,17 @@ inline void random_merge(uint32_t& a, uint32_t b, uint32_t selector) noexcept
 }
 
 static const uint32_t ravencoin_kawpow[15] = {
-        0x00000072, //R
-        0x00000041, //A
-        0x00000056, //V
+        0x0000004D, //M
         0x00000045, //E
-        0x0000004E, //N
+        0x0000004F, //O
+        0x00000057, //W
         0x00000043, //C
         0x0000004F, //O
         0x00000049, //I
         0x0000004E, //N
-        0x0000004B, //K
-        0x00000041, //A
+        0x0000004D, //M
+        0x00000045, //E
+        0x0000004F, //O
         0x00000057, //W
         0x00000050, //P
         0x0000004F, //O

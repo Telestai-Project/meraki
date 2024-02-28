@@ -27,7 +27,7 @@ constexpr static int full_dataset_growth = 1 << 23;
 constexpr static int full_dataset_item_parents = 512;
 
 //MeowPow Dag Change
-constexpr static int meowpow_dagchange_epoch = 128;
+constexpr static int meowpow_dagchange_epoch = 110;
 
 // Verify constants:
 static_assert(sizeof(hash512) == ETHASH_LIGHT_CACHE_ITEM_SIZE, "");
@@ -141,7 +141,7 @@ epoch_context_full* create_epoch_context(
     if (epoch_number >= meowpow_dagchange_epoch)
     {
         // note, int truncates, it doesnt round, 10 == 10.5. So this is ok.
-        meow_epoch = epoch_number*3; //This should pass 4gb DAG size
+        meow_epoch = epoch_number*4; //This should pass 4gb DAG size
     }
 
     const int light_cache_num_items = calculate_light_cache_num_items(meow_epoch);

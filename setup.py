@@ -67,18 +67,17 @@ class build_ext(setuptools_build_ext):
 
 
 setup(
-    name='ethash',
+    name='meowpow',
     version='0.5.1-alpha.1',
-    description=
-    "C/C++ implementation of Ethash – the Ethereum Proof of Work algorithm",
+    description="C/C++ implementation of Ethash - the Ethereum Proof of Work algorithm",
     url='https://github.com/chfast/ethash',
-    author='Paweł Bylica',
+    author='Pawel Bylica',
     author_email='pawel@ethereum.org',
     license='Apache License, Version 2.0',
 
     package_dir={'': 'bindings/python'},
-    packages=['ethash'],
-    cffi_modules=['bindings/python/ethash/_build.py:ffibuilder'],
+    packages=['meowpow'],
+    cffi_modules=['bindings/python/meowpow/_build.py:ffibuilder'],
 
     python_requires='>=3.5',
     setup_requires=['cffi>=1.12'],

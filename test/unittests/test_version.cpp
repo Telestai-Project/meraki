@@ -1,15 +1,15 @@
-// ethash: C/C++ implementation of Ethash, the Ethereum Proof of Work algorithm.
+// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
 // Copyright 2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
-#include <ethash/version.h>
+#include <meowpow/version.h>
 
 #include <gtest/gtest.h>
 
-TEST(libethash, version)
+TEST(libmeowpow, version)
 {
-    static_assert(ethash::version[0] != 0, "incorrect ethash::version");
+    static_assert(meowpow::version[0] != 0, "incorrect meowpow::version");
 
-    EXPECT_EQ(ETHASH_VERSION, TEST_PROJECT_VERSION);
-    EXPECT_EQ(ethash::version, TEST_PROJECT_VERSION);
+    EXPECT_EQ(MEOWPOW_VERSION, TEST_PROJECT_VERSION);
+    EXPECT_EQ(meowpow::version, TEST_PROJECT_VERSION);
 }

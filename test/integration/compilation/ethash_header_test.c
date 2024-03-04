@@ -1,15 +1,15 @@
-/* ethash: C/C++ implementation of Ethash, the Ethereum Proof of Work algorithm.
+/* meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
  * Copyright 2018-2019 Pawel Bylica.
  * Licensed under the Apache License, Version 2.0.
  */
 
-#include <ethash/ethash.h>
+#include <meowpow/meowpow.h>
 
 int test()
 {
     int sum = 0;
-    sum += ETHASH_EPOCH_LENGTH;
-    sum += ETHASH_LIGHT_CACHE_ITEM_SIZE;
-    sum += ETHASH_FULL_DATASET_ITEM_SIZE;
+    sum += MEOWPOW_EPOCH_LENGTH;
+    sum += MEOWPOW_LIGHT_CACHE_ITEM_SIZE;
+    sum += MEOWPOW_FULL_DATASET_ITEM_SIZE;
     return sum;
 }

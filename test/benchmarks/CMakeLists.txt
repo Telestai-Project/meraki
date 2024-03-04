@@ -1,12 +1,12 @@
-# ethash: C/C++ implementation of Ethash, the Ethereum Proof of Work algorithm.
+# meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
 # Copyright 2018-2019 Pawel Bylica.
 # Licensed under the Apache License, Version 2.0.
 
 hunter_add_package(benchmark)
 find_package(benchmark CONFIG REQUIRED)
 
-add_executable(ethash-bench
-    ethash_benchmarks.cpp
+add_executable(meowpow-bench
+    meowpow_benchmarks.cpp
     keccak_benchmarks.cpp
     keccak_utils.hpp
     keccak_utils.cpp
@@ -15,6 +15,6 @@ add_executable(ethash-bench
     threadsync_benchmarks.cpp
     threadsync_utils.hpp
     threadsync_utils.cpp)
-target_link_libraries(ethash-bench PRIVATE ethash benchmark::benchmark)
-target_include_directories(ethash-bench PRIVATE ${ETHASH_PRIVATE_INCLUDE_DIR})
-set_target_properties(ethash-bench PROPERTIES RUNTIME_OUTPUT_DIRECTORY ..)
+target_link_libraries(meowpow-bench PRIVATE meowpow benchmark::benchmark)
+target_include_directories(meowpow-bench PRIVATE ${MEOWPOW_PRIVATE_INCLUDE_DIR})
+set_target_properties(meowpow-bench PROPERTIES RUNTIME_OUTPUT_DIRECTORY ..)

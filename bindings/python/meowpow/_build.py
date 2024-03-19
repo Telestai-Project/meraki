@@ -63,6 +63,8 @@ bool meowpow_verify(const struct meowpow_epoch_context* context,
     const union meowpow_hash256* header_hash, const union meowpow_hash256* mix_hash, uint64_t nonce,
     const union meowpow_hash256* boundary);
 
+union meowpow_hash256 light_verify(const union meowpow_hash256* header_hash, const union meowpow_hash256* mix_hash, uint64_t nonce);                            
+
 """)
 
 if __name__ == "__main__":

@@ -23,13 +23,13 @@ int main(int argc, const char* argv[])
             str_boundary = std::string(argv[++i]);
     }
 
-//    char final_hash[64];
+    char final_hash[64];
 
-//    if (progpow::light_verify(str_header_hash.c_str(), str_mix_hash.c_str(), str_nonce.c_str(), str_boundary.c_str(), final_hash))
-//        printf("%.*s\n", 64, final_hash);
-//    else {
-//        printf("Not found\n");
-//    }
+   if (progpow::light_verify(str_header_hash.c_str(), str_mix_hash.c_str(), str_nonce.c_str(), str_boundary.c_str(), final_hash))
+       printf("%.*s\n", 64, final_hash);
+   else {
+       printf("Not found\n");
+   }
 
     return 0;
 }

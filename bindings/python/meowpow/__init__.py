@@ -50,10 +50,10 @@ def light_verify(header_hash, mix_hash, nonce):
     if len(header_hash) != 32:
         raise ValueError('header_hash must have length of 32')
 
-    c_header_hash = ffi.new('union ethash_hash256*')
+    c_header_hash = ffi.new('union meowpow_hash256*')
     c_header_hash[0].str = header_hash
 
-    c_mix_hash = ffi.new('union ethash_hash256*')
+    c_mix_hash = ffi.new('union meowpow_hash256*')
     c_mix_hash[0].str = mix_hash
 
     result = lib.light_verify(c_header_hash, c_mix_hash, nonce)

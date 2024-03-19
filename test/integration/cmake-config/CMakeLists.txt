@@ -3,10 +3,10 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-project(ethash-cmake-config-test)
+project(meowpow-cmake-config-test)
 
-find_package(ethash CONFIG REQUIRED)
+find_package(meowpow CONFIG REQUIRED)
 
-add_executable(ethash-cmake-config-test cmake_config_test.cpp)
-target_link_libraries(ethash-cmake-config-test ethash::ethash)
-set_target_properties(ethash-cmake-config-test PROPERTIES CXX_STANDARD 11 CXX_EXTENSIONS OFF)
+add_executable(meowpow-cmake-config-test cmake_config_test.cpp)
+target_link_libraries(meowpow-cmake-config-test meowpow::meowpow)
+set_target_properties(meowpow-cmake-config-test PROPERTIES CXX_STANDARD 11 CXX_EXTENSIONS OFF)

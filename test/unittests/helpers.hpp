@@ -1,10 +1,10 @@
-// ethash: C/C++ implementation of Ethash, the Ethereum Proof of Work algorithm.
+// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
 #pragma once
 
-#include <ethash/ethash.hpp>
+#include <meowpow/meowpow.hpp>
 
 #include <string>
 
@@ -22,11 +22,11 @@ inline std::string to_hex(const Hash& h)
     return str;
 }
 
-inline ethash::hash256 to_hash256(const std::string& hex)
+inline meowpow::hash256 to_hash256(const std::string& hex)
 {
     auto parse_digit = [](char d) -> int { return d <= '9' ? (d - '0') : (d - 'a' + 10); };
 
-    ethash::hash256 hash = {};
+    meowpow::hash256 hash = {};
     for (size_t i = 1; i < hex.size(); i += 2)
     {
         int h = parse_digit(hex[i - 1]);
@@ -37,18 +37,18 @@ inline ethash::hash256 to_hash256(const std::string& hex)
 }
 
 /// Comparison operator for hash256 to be used in unit tests.
-inline bool operator==(const ethash::hash256& a, const ethash::hash256& b) noexcept
+inline bool operator==(const meowpow::hash256& a, const meowpow::hash256& b) noexcept
 {
     return std::memcmp(a.bytes, b.bytes, sizeof(a)) == 0;
 }
 
-inline bool operator!=(const ethash::hash256& a, const ethash::hash256& b) noexcept
+inline bool operator!=(const meowpow::hash256& a, const meowpow::hash256& b) noexcept
 {
     return !(a == b);
 }
 
-inline const ethash::epoch_context& get_ethash_epoch_context_0() noexcept
+inline const meowpow::epoch_context& get_meowpow_epoch_context_0() noexcept
 {
-    static ethash::epoch_context_ptr context = ethash::create_epoch_context(0);
+    static meowpow::epoch_context_ptr context = meowpow::create_epoch_context(0);
     return *context;
 }

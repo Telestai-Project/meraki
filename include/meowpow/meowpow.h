@@ -126,6 +126,9 @@ bool meowpow_verify_final_hash(const union meowpow_hash256* header_hash,
     const union meowpow_hash256* mix_hash, uint64_t nonce,
     const union meowpow_hash256* boundary) NOEXCEPT;
 
+union meowpow_hash256 light_verify(const union meowpow_hash256* header_hash,
+                       const union meowpow_hash256* mix_hash, uint64_t nonce) NOEXCEPT;
+
 #ifdef __cplusplus
 }
 #endif

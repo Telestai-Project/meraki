@@ -1,4 +1,4 @@
-/* meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+/* meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
  * Copyright 2018-2019 Pawel Bylica.
  * Licensed under the Apache License, Version 2.0.
  */
@@ -35,9 +35,9 @@ static const uint32_t round_constants[22] = {
     0x00008080,
 };
 
-void meowpow_keccakf800(uint32_t state[25])
+void meraki_keccakf800(uint32_t state[25])
 {
-    /* The implementation directly translated from meowpow_keccakf1600. */
+    /* The implementation directly translated from meraki_keccakf1600. */
 
     int round;
 

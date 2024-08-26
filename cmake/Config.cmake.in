@@ -1,4 +1,4 @@
 @PACKAGE_INIT@
 
-include("${CMAKE_CURRENT_LIST_DIR}/meowpowTargets.cmake")
-check_required_components(meowpow)
+include("${CMAKE_CURRENT_LIST_DIR}/merakiTargets.cmake")
+check_required_components(meraki)

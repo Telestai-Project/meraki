@@ -1,11 +1,11 @@
-/* meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+/* meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
  * Copyright 2018-2019 Pawel Bylica.
  * Licensed under the Apache License, Version 2.0.
  */
 
 #pragma once
 
-#include <meowpow/meowpow.h>
+#include <meraki/meraki.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,7 +18,7 @@ extern "C" {
  * @return  The largest prime number `p` such `p <= upper_bound`.
  *          In case `upper_bound <= 1`, returns 0.
  */
-int meowpow_find_largest_prime(int upper_bound) NOEXCEPT;
+int meraki_find_largest_prime(int upper_bound) NOEXCEPT;
 
 #ifdef __cplusplus
 }

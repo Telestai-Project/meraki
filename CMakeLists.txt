@@ -1,4 +1,4 @@
-# meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+# meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 # Copyright 2018-2019 Pawel Bylica.
 # Licensed under the Apache License, Version 2.0.
 
@@ -32,7 +32,7 @@ HunterGate(
     SHA1 "88ea6d37c897a81a080eb9ae0f69d7807bbb3c73"
 )
 
-project(meowpow)
+project(meraki)
 set(PROJECT_VERSION 0.5.2)
 
 cable_configure_compiler(NO_STACK_PROTECTION)
@@ -40,8 +40,8 @@ if(CABLE_COMPILER_GNULIKE)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og")
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Og")
 
-    option(MEOWPOW_NATIVE "Build for native CPU" OFF)
-    if(MEOWPOW_NATIVE)
+    option(MERAKI_NATIVE "Build for native CPU" OFF)
+    if(MERAKI_NATIVE)
         add_compile_options(-march=native)
     endif()
 elseif(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
@@ -49,10 +49,10 @@ elseif(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
 endif()
 
-option(MEOWPOW_INSTALL_CMAKE_CONFIG "Install CMake configuration scripts for find_package(CONFIG)" ON)
+option(MERAKI_INSTALL_CMAKE_CONFIG "Install CMake configuration scripts for find_package(CONFIG)" ON)
 
-option(MEOWPOW_FUZZING "Build with fuzzer instrumentation" OFF)
-if(MEOWPOW_FUZZING)
+option(MERAKI_FUZZING "Build with fuzzer instrumentation" OFF)
+if(MERAKI_FUZZING)
     set(CMAKE_EXE_LINKER_FLAGS "-fsanitize=fuzzer-no-link ${CMAKE_EXE_LINKER_FLAGS}")
     add_compile_options(-fno-omit-frame-pointer -fsanitize=fuzzer,undefined,integer -fno-sanitize-recover=all)
 endif()
@@ -61,8 +61,8 @@ set(include_dir ${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(lib)
 
-option(MEOWPOW_BUILD_TESTS "Build unit tests" ON)
-if(MEOWPOW_BUILD_TESTS)
+option(MERAKI_BUILD_TESTS "Build unit tests" ON)
+if(MERAKI_BUILD_TESTS)
     add_subdirectory(test)
 endif()
 
@@ -72,19 +72,19 @@ install(
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-if(MEOWPOW_INSTALL_CMAKE_CONFIG)
-    write_basic_package_version_file(meowpowConfigVersion.cmake COMPATIBILITY SameMajorVersion)
-    configure_package_config_file(cmake/Config.cmake.in meowpowConfig.cmake INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/meowpow)
+if(MERAKI_INSTALL_CMAKE_CONFIG)
+    write_basic_package_version_file(merakiConfigVersion.cmake COMPATIBILITY SameMajorVersion)
+    configure_package_config_file(cmake/Config.cmake.in merakiConfig.cmake INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/meraki)
 
     install(
-        EXPORT meowpowTargets
-        NAMESPACE meowpow::
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/meowpow
+        EXPORT merakiTargets
+        NAMESPACE meraki::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/meraki
     )
     install(
         FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/meowpowConfig.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/meowpowConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/meowpow
+        ${CMAKE_CURRENT_BINARY_DIR}/merakiConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/merakiConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/meraki
     )
 endif()

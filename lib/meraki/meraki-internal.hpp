@@ -1,33 +1,33 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
 /// @file
-/// Contains declarations of internal meowpow functions to allow them to be
+/// Contains declarations of internal meraki functions to allow them to be
 /// unit-tested.
 
 #pragma once
 
-#include <meowpow/meowpow.hpp>
+#include <meraki/meraki.hpp>
 
 #include "endianness.hpp"
 
 #include <memory>
 #include <vector>
 
-extern "C" struct meowpow_epoch_context_full : meowpow_epoch_context
+extern "C" struct meraki_epoch_context_full : meraki_epoch_context
 {
-    meowpow_hash1024* full_dataset;
+    meraki_hash1024* full_dataset;
 
-    constexpr meowpow_epoch_context_full(int epoch, int light_num_items,
-        const meowpow_hash512* light, const uint32_t* l1, int dataset_num_items,
-        meowpow_hash1024* dataset) noexcept
-      : meowpow_epoch_context{epoch, light_num_items, light, l1, dataset_num_items},
+    constexpr meraki_epoch_context_full(int epoch, int light_num_items,
+        const meraki_hash512* light, const uint32_t* l1, int dataset_num_items,
+        meraki_hash1024* dataset) noexcept
+      : meraki_epoch_context{epoch, light_num_items, light, l1, dataset_num_items},
         full_dataset{dataset}
     {}
 };
 
-namespace meowpow
+namespace meraki
 {
 inline bool is_less_or_equal(const hash256& a, const hash256& b) noexcept
 {
@@ -65,4 +65,4 @@ epoch_context_full* create_epoch_context(
 
 }  // namespace generic
 
-}  // namespace meowpow
+}  // namespace meraki

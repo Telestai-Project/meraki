@@ -1,11 +1,11 @@
-// Meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// Meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
 #include "keccak_utils.hpp"
 
-#include <meowpow/keccak.h>
-#include <meowpow/keccak.hpp>
+#include <meraki/keccak.h>
+#include <meraki/keccak.hpp>
 
 #include <benchmark/benchmark.h>
 
@@ -23,7 +23,7 @@ static void keccakf1600(benchmark::State& state)
 
     for (auto _ : state)
     {
-        meowpow_keccakf1600(keccak_state);
+        meraki_keccakf1600(keccak_state);
         benchmark::DoNotOptimize(keccak_state);
     }
 }
@@ -36,7 +36,7 @@ static void keccakf800(benchmark::State& state)
 
     for (auto _ : state)
     {
-        meowpow_keccakf800(keccak_state);
+        meraki_keccakf800(keccak_state);
         benchmark::DoNotOptimize(keccak_state);
     }
 }
@@ -50,7 +50,7 @@ static void keccak256(benchmark::State& state)
 
     for (auto _ : state)
     {
-        auto h = meowpow_keccak256(data.data(), data.size());
+        auto h = meraki_keccak256(data.data(), data.size());
         benchmark::DoNotOptimize(h.bytes);
     }
 }
@@ -64,7 +64,7 @@ static void keccak512(benchmark::State& state)
 
     for (auto _ : state)
     {
-        auto h = meowpow_keccak512(data.data(), data.size());
+        auto h = meraki_keccak512(data.data(), data.size());
         benchmark::DoNotOptimize(h.bytes);
     }
 }

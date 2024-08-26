@@ -1,10 +1,10 @@
-// Meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// Meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
 #include "../unittests/helpers.hpp"
 
-#include <meowpow/progpow.hpp>
+#include <meraki/progpow.hpp>
 
 #include <benchmark/benchmark.h>
 
@@ -14,7 +14,7 @@ static void progpow_hash(benchmark::State& state)
     int block_number = static_cast<int>(state.range(0)) * 1000000;
     uint64_t nonce = 1;
 
-    const auto& ctx = meowpow::get_global_epoch_context(meowpow::get_epoch_number(block_number));
+    const auto& ctx = meraki::get_global_epoch_context(meraki::get_epoch_number(block_number));
 
     for (auto _ : state)
         progpow::hash(ctx, block_number++, {}, nonce++);

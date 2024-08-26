@@ -1,22 +1,22 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
-#include "meowpow-internal.hpp"
+#include "meraki-internal.hpp"
 
 #include "../support/attributes.h"
 #include "bit_manipulation.h"
 #include "endianness.hpp"
 #include "primes.h"
-#include <meowpow/keccak.hpp>
-#include <meowpow/progpow.hpp>
+#include <meraki/keccak.hpp>
+#include <meraki/progpow.hpp>
 
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
 
-namespace meowpow
+namespace meraki
 {
 // Internal constants:
 constexpr static int light_cache_init_size = 1 << 24;
@@ -26,14 +26,13 @@ constexpr static int full_dataset_init_size = 1 << 30;
 constexpr static int full_dataset_growth = 1 << 23;
 constexpr static int full_dataset_item_parents = 512;
 
-//MeowPow Dag Change
-constexpr static int meowpow_dagchange_epoch = 110;
+
 
 // Verify constants:
-static_assert(sizeof(hash512) == MEOWPOW_LIGHT_CACHE_ITEM_SIZE, "");
-static_assert(sizeof(hash1024) == MEOWPOW_FULL_DATASET_ITEM_SIZE, "");
-static_assert(light_cache_item_size == MEOWPOW_LIGHT_CACHE_ITEM_SIZE, "");
-static_assert(full_dataset_item_size == MEOWPOW_FULL_DATASET_ITEM_SIZE, "");
+static_assert(sizeof(hash512) == MERAKI_LIGHT_CACHE_ITEM_SIZE, "");
+static_assert(sizeof(hash1024) == MERAKI_FULL_DATASET_ITEM_SIZE, "");
+static_assert(light_cache_item_size == MERAKI_LIGHT_CACHE_ITEM_SIZE, "");
+static_assert(full_dataset_item_size == MERAKI_FULL_DATASET_ITEM_SIZE, "");
 
 
 namespace
@@ -137,15 +136,8 @@ epoch_context_full* create_epoch_context(
     static_assert(sizeof(epoch_context_full) < sizeof(hash512), "epoch_context too big");
     static constexpr size_t context_alloc_size = sizeof(hash512);
 
-    int meow_epoch = epoch_number;
-    if (epoch_number >= meowpow_dagchange_epoch)
-    {
-        // note, int truncates, it doesnt round, 10 == 10.5. So this is ok.
-        meow_epoch = epoch_number*4; //This should pass 4gb DAG size
-    }
-
-    const int light_cache_num_items = calculate_light_cache_num_items(meow_epoch);
-    const int full_dataset_num_items = calculate_full_dataset_num_items(meow_epoch);
+    const int light_cache_num_items = calculate_light_cache_num_items(epoch_number);
+    const int full_dataset_num_items = calculate_full_dataset_num_items(epoch_number);
     const size_t light_cache_size = get_light_cache_size(light_cache_num_items);
     const size_t full_dataset_size =
         full ? static_cast<size_t>(full_dataset_num_items) * sizeof(hash1024) :
@@ -358,21 +350,21 @@ search_result search(const epoch_context_full& context, const hash256& header_ha
     }
     return {};
 }
-}  // namespace meowpow
+}  // namespace meraki
 
-using namespace meowpow;
+using namespace meraki;
 
 extern "C" {
 
-meowpow_hash256 meowpow_calculate_epoch_seed(int epoch_number) noexcept
+meraki_hash256 meraki_calculate_epoch_seed(int epoch_number) noexcept
 {
-    meowpow_hash256 epoch_seed = {};
+    meraki_hash256 epoch_seed = {};
     for (int i = 0; i < epoch_number; ++i)
-        epoch_seed = meowpow_keccak256_32(epoch_seed.bytes);
+        epoch_seed = meraki_keccak256_32(epoch_seed.bytes);
     return epoch_seed;
 }
 
-int meowpow_calculate_light_cache_num_items(int epoch_number) noexcept
+int meraki_calculate_light_cache_num_items(int epoch_number) noexcept
 {
     static constexpr int item_size = sizeof(hash512);
     static constexpr int num_items_init = light_cache_init_size / item_size;
@@ -383,11 +375,11 @@ int meowpow_calculate_light_cache_num_items(int epoch_number) noexcept
         light_cache_growth % item_size == 0, "light_cache_growth not multiple of item size");
 
     int num_items_upper_bound = num_items_init + (epoch_number * 4) * num_items_growth;
-    int num_items = meowpow_find_largest_prime(num_items_upper_bound);
+    int num_items = meraki_find_largest_prime(num_items_upper_bound);
     return num_items;
 }
 
-int meowpow_calculate_full_dataset_num_items(int epoch_number) noexcept
+int meraki_calculate_full_dataset_num_items(int epoch_number) noexcept
 {
     static constexpr int item_size = sizeof(hash1024);
     static constexpr int num_items_init = full_dataset_init_size / item_size;
@@ -398,32 +390,32 @@ int meowpow_calculate_full_dataset_num_items(int epoch_number) noexcept
         full_dataset_growth % item_size == 0, "full_dataset_growth not multiple of item size");
 
     int num_items_upper_bound = num_items_init + (epoch_number * 4) * num_items_growth;
-    int num_items = meowpow_find_largest_prime(num_items_upper_bound);
+    int num_items = meraki_find_largest_prime(num_items_upper_bound);
     return num_items;
 }
 
-epoch_context* meowpow_create_epoch_context(int epoch_number) noexcept
+epoch_context* meraki_create_epoch_context(int epoch_number) noexcept
 {
     return generic::create_epoch_context(build_light_cache, epoch_number, false);
 }
 
-epoch_context_full* meowpow_create_epoch_context_full(int epoch_number) noexcept
+epoch_context_full* meraki_create_epoch_context_full(int epoch_number) noexcept
 {
     return generic::create_epoch_context(build_light_cache, epoch_number, true);
 }
 
-void meowpow_destroy_epoch_context_full(epoch_context_full* context) noexcept
+void meraki_destroy_epoch_context_full(epoch_context_full* context) noexcept
 {
-    meowpow_destroy_epoch_context(context);
+    meraki_destroy_epoch_context(context);
 }
 
-void meowpow_destroy_epoch_context(epoch_context* context) noexcept
+void meraki_destroy_epoch_context(epoch_context* context) noexcept
 {
     context->~epoch_context();
     std::free(context);
 }
 
-meowpow_result meowpow_hash(
+meraki_result meraki_hash(
     const epoch_context* context, const hash256* header_hash, uint64_t nonce) noexcept
 {
     const hash512 seed = hash_seed(*header_hash, nonce);
@@ -431,14 +423,14 @@ meowpow_result meowpow_hash(
     return {hash_final(seed, mix_hash), mix_hash};
 }
 
-bool meowpow_verify_final_hash(const hash256* header_hash, const hash256* mix_hash, uint64_t nonce,
+bool meraki_verify_final_hash(const hash256* header_hash, const hash256* mix_hash, uint64_t nonce,
     const hash256* boundary) noexcept
 {
     const hash512 seed = hash_seed(*header_hash, nonce);
     return is_less_or_equal(hash_final(seed, *mix_hash), *boundary);
 }
 
-bool meowpow_verify(const epoch_context* context, const hash256* header_hash,
+bool meraki_verify(const epoch_context* context, const hash256* header_hash,
     const hash256* mix_hash, uint64_t nonce, const hash256* boundary) noexcept
 {
     const hash512 seed = hash_seed(*header_hash, nonce);
@@ -449,18 +441,18 @@ bool meowpow_verify(const epoch_context* context, const hash256* header_hash,
     return is_equal(expected_mix_hash, *mix_hash);
 }
 
-static const uint32_t meowcoin_meowpow[15] = {
-        0x0000004D, //M
+static const uint32_t meowcoin_meraki[15] = {
+        0x00000072, //R
+        0x00000041, //A
+        0x00000056, //V
         0x00000045, //E
-        0x0000004F, //O
-        0x00000057, //W
+        0x0000004E, //N
         0x00000043, //C
         0x0000004F, //O
         0x00000049, //I
         0x0000004E, //N
-        0x0000004D, //M
-        0x00000045, //E
-        0x0000004F, //O
+        0x0000004B, //K
+        0x00000041, //A
         0x00000057, //W
         0x00000050, //P
         0x0000004F, //O
@@ -486,9 +478,9 @@ hash256 light_verify(const hash256* header_hash,
 
         // 3rd apply progpow input constraints
         for (int i = 10; i < 25; i++)
-            state[i] = meowcoin_meowpow[i-10];
+            state[i] = meowcoin_meraki[i-10];
 
-        meowpow_keccakf800(state);
+        meraki_keccakf800(state);
 
         for (int i = 0; i < 8; i++)
             state2[i] = state[i];
@@ -508,10 +500,10 @@ hash256 light_verify(const hash256* header_hash,
 
     // 3rd apply progpow input constraints
     for (int i = 16; i < 25; i++)
-        state[i] = meowcoin_meowpow[i - 16];
+        state[i] = meowcoin_meraki[i - 16];
 
     // Run keccak loop
-    meowpow_keccakf800(state);
+    meraki_keccakf800(state);
 
     hash256 output;
     for (int i = 0; i < 8; ++i)

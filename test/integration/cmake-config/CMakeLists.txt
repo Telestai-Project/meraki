@@ -3,10 +3,10 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-project(meowpow-cmake-config-test)
+project(meraki-cmake-config-test)
 
-find_package(meowpow CONFIG REQUIRED)
+find_package(meraki CONFIG REQUIRED)
 
-add_executable(meowpow-cmake-config-test cmake_config_test.cpp)
-target_link_libraries(meowpow-cmake-config-test meowpow::meowpow)
-set_target_properties(meowpow-cmake-config-test PROPERTIES CXX_STANDARD 11 CXX_EXTENSIONS OFF)
+add_executable(meraki-cmake-config-test cmake_config_test.cpp)
+target_link_libraries(meraki-cmake-config-test meraki::meraki)
+set_target_properties(meraki-cmake-config-test PROPERTIES CXX_STANDARD 11 CXX_EXTENSIONS OFF)

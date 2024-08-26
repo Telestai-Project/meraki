@@ -1,17 +1,17 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
 /// @file
 /// This file contains helper functions to handle big-endian architectures.
-/// The Meowpow algorithm is naturally defined for little-endian architectures
+/// The Meraki algorithm is naturally defined for little-endian architectures
 /// so for those the helpers are just no-op empty functions.
 /// For big-endian architectures we need 32-bit and 64-bit byte swapping in
 /// some places.
 
 #pragma once
 
-#include <meowpow/meowpow.hpp>
+#include <meraki/meraki.hpp>
 
 #if _WIN32
 
@@ -41,7 +41,7 @@
 
 #endif
 
-namespace meowpow
+namespace meraki
 {
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 
@@ -96,4 +96,4 @@ struct be
 };
 
 #endif
-}  // namespace meowpow
+}  // namespace meraki

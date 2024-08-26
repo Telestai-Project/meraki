@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+# meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 # Copyright 2019 Pawel Bylica.
 # Licensed under the Apache License, Version 2.0.
 
@@ -35,15 +35,15 @@ class build_ext(setuptools_build_ext):
             '-DCMAKE_INSTALL_LIBDIR=lib',
             '-DCMAKE_POSITION_INDEPENDENT_CODE=TRUE',
             '-DHUNTER_ENABLED=OFF',
-            '-DMEOWPOW_BUILD_TESTS=OFF',
-            '-DMEOWPOW_INSTALL_CMAKE_CONFIG=OFF'
+            '-DMERAKI_BUILD_TESTS=OFF',
+            '-DMERAKI_INSTALL_CMAKE_CONFIG=OFF'
         ]
 
         generator = os.environ.get('GENERATOR')
         if generator:
             cmake_opts.append('-G{}'.format(generator))
 
-        if not self.skip_cmake_build and not os.environ.get('MEOWPOW_PYTHON_SKIP_BUILD'):
+        if not self.skip_cmake_build and not os.environ.get('MERAKI_PYTHON_SKIP_BUILD'):
             cmake_cmd = shutil.which('cmake')
             if not cmake_cmd:
                 raise CCompilerError(
@@ -67,23 +67,23 @@ class build_ext(setuptools_build_ext):
 
 
 setup(
-    name='meowpow',
+    name='meraki',
     version='0.5.2',
-    description="C/C++ implementation of Meowpow - the Meowcoin Proof of Work algorithm",
-    url='https://github.com/chfast/meowpow',
+    description="C/C++ implementation of Meraki - the Telestai Proof of Work algorithm",
+    url='https://github.com/Telestai-Project/meraki',
     author='Pawel Bylica',
     author_email='pawel@ethereum.org',
     license='Apache License, Version 2.0',
 
     package_dir={'': 'bindings/python'},
-    packages=['meowpow'],
-    cffi_modules=['bindings/python/meowpow/_build.py:ffibuilder'],
+    packages=['meraki'],
+    cffi_modules=['bindings/python/meraki/_build.py:ffibuilder'],
 
     python_requires='>=3.5',
     setup_requires=['cffi>=1.12'],
     install_requires=['cffi>=1.12'],
 
-    test_suite='tests.test_meowpow',
+    test_suite='tests.test_meraki',
 
     cmdclass={'build_ext': build_ext},
 

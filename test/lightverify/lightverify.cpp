@@ -1,5 +1,5 @@
 
-#include <meowpow/progpow.hpp>
+#include <meraki/progpow.hpp>
 #include <iostream>
 
 int main(int argc, const char* argv[])

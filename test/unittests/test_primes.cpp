@@ -1,17 +1,17 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
 #pragma GCC diagnostic ignored "-Wpedantic"
 #pragma clang diagnostic ignored "-Wpedantic"
 
-#include <meowpow/primes.h>
+#include <meraki/primes.h>
 
 #include <gtest/gtest.h>
 
 TEST(primes, find_largest_prime)
 {
-    /// Test pairs for find_largest_prime() are taken from generated meowpow
+    /// Test pairs for find_largest_prime() are taken from generated meraki
     /// light cache and full dataset sizes, picked 50 at random from each collection.
     /// See https://github.com/ethereum/wiki/wiki/Ethash#data-sizes.
     static std::pair<int, int> test_pairs[] = {{262144, 262139}, {415744, 415729}, {440320, 440311},
@@ -45,22 +45,22 @@ TEST(primes, find_largest_prime)
 
     for (const auto& t : test_pairs)
     {
-        int prime = meowpow_find_largest_prime(t.first);
+        int prime = meraki_find_largest_prime(t.first);
         EXPECT_EQ(prime, t.second);
     }
 }
 
 TEST(primes, find_largest_prime_edge_cases)
 {
-    EXPECT_EQ(meowpow_find_largest_prime(-2147483647), 0);
-    EXPECT_EQ(meowpow_find_largest_prime(-100), 0);
-    EXPECT_EQ(meowpow_find_largest_prime(-1), 0);
-    EXPECT_EQ(meowpow_find_largest_prime(0), 0);
-    EXPECT_EQ(meowpow_find_largest_prime(1), 0);
-    EXPECT_EQ(meowpow_find_largest_prime(2), 2);
-    EXPECT_EQ(meowpow_find_largest_prime(3), 3);
-    EXPECT_EQ(meowpow_find_largest_prime(4), 3);
-    EXPECT_EQ(meowpow_find_largest_prime(5), 5);
-    EXPECT_EQ(meowpow_find_largest_prime(6), 5);
-    EXPECT_EQ(meowpow_find_largest_prime(7), 7);
+    EXPECT_EQ(meraki_find_largest_prime(-2147483647), 0);
+    EXPECT_EQ(meraki_find_largest_prime(-100), 0);
+    EXPECT_EQ(meraki_find_largest_prime(-1), 0);
+    EXPECT_EQ(meraki_find_largest_prime(0), 0);
+    EXPECT_EQ(meraki_find_largest_prime(1), 0);
+    EXPECT_EQ(meraki_find_largest_prime(2), 2);
+    EXPECT_EQ(meraki_find_largest_prime(3), 3);
+    EXPECT_EQ(meraki_find_largest_prime(4), 3);
+    EXPECT_EQ(meraki_find_largest_prime(5), 5);
+    EXPECT_EQ(meraki_find_largest_prime(6), 5);
+    EXPECT_EQ(meraki_find_largest_prime(7), 7);
 }

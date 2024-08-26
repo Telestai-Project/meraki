@@ -61,10 +61,10 @@ defaults:
 
   build-tests: &build-tests
     run:
-      name: "Build meowpow-test"
+      name: "Build meraki-test"
       working_directory: ~/build
       command: |
-        cmake --build . --target meowpow-test -- -j $BUILD_PARALLEL_JOBS
+        cmake --build . --target meraki-test -- -j $BUILD_PARALLEL_JOBS
 
   test: &test
     run:
@@ -72,9 +72,9 @@ defaults:
       working_directory: ~/build
       command: |
         if [ -z "$GTEST_FILTER" ]; then
-          test/meowpow-test
+          test/meraki-test
         else
-          test/meowpow-test --gtest_filter=$GTEST_FILTER
+          test/meraki-test --gtest_filter=$GTEST_FILTER
         fi
 
   test-cmake-config: &test-cmake-config
@@ -84,21 +84,21 @@ defaults:
       command: |
         cmake -DCMAKE_PREFIX_PATH=/tmp/local .
         cmake --build .
-        ./meowpow-cmake-config-test
+        ./meraki-cmake-config-test
 
   test-mips64: &test-mips64
     run:
       name: "Test (mips64)"
       working_directory: ~/build
       command: |
-        qemu-mips64 -L /usr/mips64-linux-gnuabi64 test/meowpow-test
+        qemu-mips64 -L /usr/mips64-linux-gnuabi64 test/meraki-test
 
   benchmark: &benchmark
     run:
       name: "Benchmark"
       working_directory: ~/build
       command: |
-        test/meowpow-bench
+        test/meraki-bench
 
   upload-coverage-data: &upload-coverage-data
     run:
@@ -218,13 +218,13 @@ jobs:
       - *configure
       - *build-tests
       - store_artifacts:
-          path: ~/build/test/meowpow-test
-          destination: meowpow-test
+          path: ~/build/test/meraki-test
+          destination: meraki-test
       - run:
           name: "Test mips64"
           working_directory: ~/build
           command: |  # Software emulation in qemu will not handle threads.
-            qemu-mips64-static test/meowpow-test --gtest_filter='-*_multithreaded.*'
+            qemu-mips64-static test/meraki-test --gtest_filter='-*_multithreaded.*'
 
   powerpc64:
     environment:
@@ -238,20 +238,20 @@ jobs:
       - *configure
       - *build-tests
       - store_artifacts:
-          path: ~/build/test/meowpow-test
-          destination: meowpow-test
+          path: ~/build/test/meraki-test
+          destination: meraki-test
       - run:
           name: "Test powerpc64"
           working_directory: ~/build
           command: |  # Software emulation in qemu will not handle threads.
-            qemu-ppc64-static test/meowpow-test --gtest_filter='-*_multithreaded.*'
+            qemu-ppc64-static test/meraki-test --gtest_filter='-*_multithreaded.*'
 
   linux-release:
     environment:
       - CXX: clang++-8
       - CC:  clang-8
       - BUILD_PARALLEL_JOBS: 4
-      - CMAKE_OPTIONS: -DMEOWPOW_BUILD_TESTS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DHUNTER_ENABLED=OFF
+      - CMAKE_OPTIONS: -DMERAKI_BUILD_TESTS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DHUNTER_ENABLED=OFF
     docker:
       - image: ethereum/cpp-build-env:9
     steps:
@@ -319,7 +319,7 @@ jobs:
   macos-release:
     environment:
       - BUILD_PARALLEL_JOBS: 4
-      - CMAKE_OPTIONS: -DMEOWPOW_BUILD_TESTS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=~/project/dist
+      - CMAKE_OPTIONS: -DMERAKI_BUILD_TESTS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=~/project/dist
     macos:
       xcode: "10.2.1"
     steps:
@@ -347,7 +347,7 @@ jobs:
 
 workflows:
   version: 2
-  meowpow:
+  meraki:
     jobs:
       - linux-gcc-coverage
       - linux-clang-ubsan

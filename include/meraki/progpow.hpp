@@ -1,4 +1,4 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
@@ -6,24 +6,24 @@
 ///
 /// ProgPoW API
 ///
-/// This file provides the public API for ProgPoW as the Meowpow API extension.
+/// This file provides the public API for ProgPoW as the Meraki API extension.
 
-#include <meowpow/meowpow.hpp>
+#include <meraki/meraki.hpp>
 
 namespace progpow
 {
-using namespace meowpow;  // Include meowpow namespace.
+using namespace meraki;  // Include meraki namespace.
 
 
 /// The ProgPoW algorithm revision implemented as specified in the spec
 /// https://github.com/ifdefelse/ProgPOW#change-history.
 constexpr auto revision = "0.9.4";
 
-constexpr int period_length = 6;
-constexpr uint32_t num_regs = 16;
+constexpr int period_length = 3;
+constexpr uint32_t num_regs = 32;
 constexpr size_t num_lanes = 16;
-constexpr int num_cache_accesses = 6;
-constexpr int num_math_operations = 9;
+constexpr int num_cache_accesses = 12;
+constexpr int num_math_operations = 5;
 constexpr size_t l1_cache_size = 16 * 1024;
 constexpr size_t l1_cache_num_items = l1_cache_size / sizeof(uint32_t);
 

@@ -1,8 +1,8 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
-#include <meowpow/meowpow.hpp>
+#include <meraki/meraki.hpp>
 
 #include <atomic>
 #include <chrono>
@@ -19,44 +19,44 @@ using timer = std::chrono::steady_clock;
 
 namespace
 {
-class meowpow_interface
+class meraki_interface
 {
 public:
-    virtual ~meowpow_interface() noexcept = default;
+    virtual ~meraki_interface() noexcept = default;
 
-    virtual void search(const meowpow::hash256& header_hash, uint64_t nonce, size_t iterations) const
+    virtual void search(const meraki::hash256& header_hash, uint64_t nonce, size_t iterations) const
         noexcept = 0;
 };
 
-class meowpow_light : public meowpow_interface
+class meraki_light : public meraki_interface
 {
-    const meowpow::epoch_context& context;
+    const meraki::epoch_context& context;
 
 public:
-    explicit meowpow_light(int epoch_number)
-      : context(meowpow::get_global_epoch_context(epoch_number))
+    explicit meraki_light(int epoch_number)
+      : context(meraki::get_global_epoch_context(epoch_number))
     {}
 
-    void search(const meowpow::hash256& header_hash, uint64_t nonce, size_t iterations) const
+    void search(const meraki::hash256& header_hash, uint64_t nonce, size_t iterations) const
         noexcept override
     {
-        meowpow::search_light(context, header_hash, {}, nonce, iterations);
+        meraki::search_light(context, header_hash, {}, nonce, iterations);
     }
 };
 
-class meowpow_full : public meowpow_interface
+class meraki_full : public meraki_interface
 {
-    const meowpow::epoch_context_full& context;
+    const meraki::epoch_context_full& context;
 
 public:
-    explicit meowpow_full(int epoch_number)
-      : context(meowpow::get_global_epoch_context_full(epoch_number))
+    explicit meraki_full(int epoch_number)
+      : context(meraki::get_global_epoch_context_full(epoch_number))
     {}
 
-    void search(const meowpow::hash256& header_hash, uint64_t nonce, size_t iterations) const
+    void search(const meraki::hash256& header_hash, uint64_t nonce, size_t iterations) const
         noexcept override
     {
-        meowpow::search(context, header_hash, {}, nonce, iterations);
+        meraki::search(context, header_hash, {}, nonce, iterations);
     }
 };
 
@@ -64,10 +64,10 @@ public:
 std::atomic<int> shared_block_number{0};
 std::atomic<int> num_hashes{0};
 
-void worker(bool light, const meowpow::hash256& header_hash, uint64_t start_nonce, int batch_size)
+void worker(bool light, const meraki::hash256& header_hash, uint64_t start_nonce, int batch_size)
 {
     int current_epoch = -1;
-    std::unique_ptr<meowpow_interface> ei;
+    std::unique_ptr<meraki_interface> ei;
     uint64_t i = 0;
     size_t w = static_cast<size_t>(batch_size);
     while (true)
@@ -76,12 +76,12 @@ void worker(bool light, const meowpow::hash256& header_hash, uint64_t start_nonc
         if (block_number < 0)
             break;
 
-        int e = meowpow::get_epoch_number(block_number);
+        int e = meraki::get_epoch_number(block_number);
 
         if (current_epoch != e)
         {
             ei.reset(
-                light ? static_cast<meowpow_interface*>(new meowpow_light{e}) : new meowpow_full{e});
+                light ? static_cast<meraki_interface*>(new meraki_light{e}) : new meraki_full{e});
             current_epoch = e;
         }
 
@@ -135,7 +135,7 @@ int main(int argc, const char* argv[])
     const uint64_t divisor = static_cast<uint64_t>(num_threads);
     const uint64_t nonce_space_per_thread = std::numeric_limits<uint64_t>::max() / divisor;
 
-    const meowpow::hash256 header_hash{};
+    const meraki::hash256 header_hash{};
 
     shared_block_number.store(start_block_number, std::memory_order_relaxed);
     std::vector<std::future<void>> futures;
@@ -155,7 +155,7 @@ int main(int argc, const char* argv[])
     auto start_time = timer::now();
     auto time = start_time;
     static constexpr int khps_mbps_ratio =
-        meowpow::num_dataset_accesses * meowpow::full_dataset_item_size / 1024;
+        meraki::num_dataset_accesses * meraki::full_dataset_item_size / 1024;
 
     double current_duration = 0;
     double all_duration = 0;
@@ -180,7 +180,7 @@ int main(int argc, const char* argv[])
 
         shared_block_number.store(block_number + 1, std::memory_order_relaxed);
 
-        int e = meowpow::get_epoch_number(block_number);
+        int e = meraki::get_epoch_number(block_number);
 
         current_khps = double(current_hashes) / current_duration;
         average_khps = double(all_hashes) / all_duration;

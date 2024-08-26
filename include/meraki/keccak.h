@@ -1,11 +1,11 @@
-/* meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+/* meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
  * Copyright 2018-2019 Pawel Bylica.
  * Licensed under the Apache License, Version 2.0.
  */
 
 #pragma once
 
-#include <meowpow/hash_types.h>
+#include <meraki/hash_types.h>
 
 #include <stddef.h>
 
@@ -27,7 +27,7 @@ extern "C" {
  *
  * @param state  The state of 25 64-bit words on which the permutation is to be performed.
  */
-void meowpow_keccakf1600(uint64_t state[25]) NOEXCEPT;
+void meraki_keccakf1600(uint64_t state[25]) NOEXCEPT;
 
 /**
  * The Keccak-f[800] function.
@@ -37,12 +37,12 @@ void meowpow_keccakf1600(uint64_t state[25]) NOEXCEPT;
  *
  * @param state  The state of 25 32-bit words on which the permutation is to be performed.
  */
-void meowpow_keccakf800(uint32_t state[25]) NOEXCEPT;
+void meraki_keccakf800(uint32_t state[25]) NOEXCEPT;
 
-union meowpow_hash256 meowpow_keccak256(const uint8_t* data, size_t size) NOEXCEPT;
-union meowpow_hash256 meowpow_keccak256_32(const uint8_t data[32]) NOEXCEPT;
-union meowpow_hash512 meowpow_keccak512(const uint8_t* data, size_t size) NOEXCEPT;
-union meowpow_hash512 meowpow_keccak512_64(const uint8_t data[64]) NOEXCEPT;
+union meraki_hash256 meraki_keccak256(const uint8_t* data, size_t size) NOEXCEPT;
+union meraki_hash256 meraki_keccak256_32(const uint8_t data[32]) NOEXCEPT;
+union meraki_hash512 meraki_keccak512(const uint8_t* data, size_t size) NOEXCEPT;
+union meraki_hash512 meraki_keccak512_64(const uint8_t data[64]) NOEXCEPT;
 
 #ifdef __cplusplus
 }

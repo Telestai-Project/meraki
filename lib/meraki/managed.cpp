@@ -1,8 +1,8 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
-#include "meowpow-internal.hpp"
+#include "meraki-internal.hpp"
 
 #include <memory>
 #include <mutex>
@@ -19,7 +19,7 @@
 #define ATTRIBUTE_NOINLINE
 #endif
 
-using namespace meowpow;
+using namespace meraki;
 
 namespace
 {
@@ -80,7 +80,7 @@ void update_local_context_full(int epoch_number)
 }
 }  // namespace
 
-const meowpow_epoch_context* meowpow_get_global_epoch_context(int epoch_number) noexcept
+const meraki_epoch_context* meraki_get_global_epoch_context(int epoch_number) noexcept
 {
     // Check if local context matches epoch number.
     if (!thread_local_context || thread_local_context->epoch_number != epoch_number)
@@ -89,7 +89,7 @@ const meowpow_epoch_context* meowpow_get_global_epoch_context(int epoch_number) 
     return thread_local_context.get();
 }
 
-const meowpow_epoch_context_full* meowpow_get_global_epoch_context_full(int epoch_number) noexcept
+const meraki_epoch_context_full* meraki_get_global_epoch_context_full(int epoch_number) noexcept
 {
     // Check if local context matches epoch number.
     if (!thread_local_context_full || thread_local_context_full->epoch_number != epoch_number)

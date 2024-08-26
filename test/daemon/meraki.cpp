@@ -1,8 +1,8 @@
 
-#include <meowpow/progpow.hpp>
+#include <meraki/progpow.hpp>
 #include "../../test/unittests/helpers.hpp"
-#include <meowpow/meowpow.hpp>
-#include <meowpow/meowpow-internal.hpp>
+#include <meraki/meraki.hpp>
+#include <meraki/meraki-internal.hpp>
 #include <climits>
 #include <memory>
 #include <cstdint>
@@ -23,7 +23,7 @@ int main(int argc, const char* argv[])
 {
     static int epoch_number = 0;
     std::uint16_t SrvPort = DEFAULT_PORT;
-    static meowpow::epoch_context_ptr context_light{nullptr, nullptr};
+    static meraki::epoch_context_ptr context_light{nullptr, nullptr};
 
     for (int i = 0; i < argc; ++i)
     {
@@ -43,7 +43,7 @@ int main(int argc, const char* argv[])
     // Build context
     if (!context_light || context_light->epoch_number != epoch_number) {
         std::cout << "Building context for epoch: " << epoch_number << std::endl;
-        context_light = meowpow::create_epoch_context(epoch_number);
+        context_light = meraki::create_epoch_context(epoch_number);
     }
 
     if (!event_init())
@@ -125,9 +125,9 @@ int main(int argc, const char* argv[])
             nHeight = (uint32_t) nH;
 
             // Check epoch number and context
-            epoch_number = (int) nHeight / MEOWPOW_EPOCH_LENGTH;
+            epoch_number = (int) nHeight / MERAKI_EPOCH_LENGTH;
             if (!context_light || context_light->epoch_number != epoch_number) {
-                context_light = meowpow::create_epoch_context(epoch_number);
+                context_light = meraki::create_epoch_context(epoch_number);
                 std::cout << "Building new context for epoch: " << epoch_number << std::endl;
             }
 
@@ -139,11 +139,11 @@ int main(int argc, const char* argv[])
                 mix_match = "true";
             }
 
-            if (meowpow::is_less_or_equal(result.final_hash, share_boundary)) {
+            if (meraki::is_less_or_equal(result.final_hash, share_boundary)) {
                 share_met = "true";
             }
 
-            if (meowpow::is_less_or_equal(result.final_hash, block_boundary)) {
+            if (meraki::is_less_or_equal(result.final_hash, block_boundary)) {
                 block_met = "true";
             }
 

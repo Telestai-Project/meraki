@@ -1,4 +1,4 @@
-// meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
@@ -7,33 +7,33 @@
 /// API design decisions:
 ///
 /// 1. Signed integer type is used whenever the size of the type is not
-///    restricted by the Meowpow specification.
+///    restricted by the Meraki specification.
 ///    See http://www.aristeia.com/Papers/C++ReportColumns/sep95.pdf.
 ///    See https://stackoverflow.com/questions/10168079/why-is-size-t-unsigned/.
 ///    See https://github.com/Microsoft/GSL/issues/171.
 
 #pragma once
 
-#include <meowpow/meowpow.h>
-#include <meowpow/hash_types.hpp>
+#include <meraki/meraki.h>
+#include <meraki/hash_types.hpp>
 
 #include <cstdint>
 #include <cstring>
 #include <memory>
 
-namespace meowpow
+namespace meraki
 {
-constexpr auto revision = MEOWPOW_REVISION;
+constexpr auto revision = MERAKI_REVISION;
 
-static constexpr int epoch_length = MEOWPOW_EPOCH_LENGTH;
-static constexpr int light_cache_item_size = MEOWPOW_LIGHT_CACHE_ITEM_SIZE;
-static constexpr int full_dataset_item_size = MEOWPOW_FULL_DATASET_ITEM_SIZE;
-static constexpr int num_dataset_accesses = MEOWPOW_NUM_DATASET_ACCESSES;
+static constexpr int epoch_length = MERAKI_EPOCH_LENGTH;
+static constexpr int light_cache_item_size = MERAKI_LIGHT_CACHE_ITEM_SIZE;
+static constexpr int full_dataset_item_size = MERAKI_FULL_DATASET_ITEM_SIZE;
+static constexpr int num_dataset_accesses = MERAKI_NUM_DATASET_ACCESSES;
 
-using epoch_context = meowpow_epoch_context;
-using epoch_context_full = meowpow_epoch_context_full;
+using epoch_context = meraki_epoch_context;
+using epoch_context_full = meraki_epoch_context_full;
 
-using result = meowpow_result;
+using result = meraki_result;
 
 /// Constructs a 256-bit hash from an array of bytes.
 ///
@@ -61,14 +61,14 @@ struct search_result
 };
 
 
-/// Alias for meowpow_calculate_light_cache_num_items().
-static constexpr auto calculate_light_cache_num_items = meowpow_calculate_light_cache_num_items;
+/// Alias for meraki_calculate_light_cache_num_items().
+static constexpr auto calculate_light_cache_num_items = meraki_calculate_light_cache_num_items;
 
-/// Alias for meowpow_calculate_full_dataset_num_items().
-static constexpr auto calculate_full_dataset_num_items = meowpow_calculate_full_dataset_num_items;
+/// Alias for meraki_calculate_full_dataset_num_items().
+static constexpr auto calculate_full_dataset_num_items = meraki_calculate_full_dataset_num_items;
 
-/// Alias for meowpow_calculate_epoch_seed().
-static constexpr auto calculate_epoch_seed = meowpow_calculate_epoch_seed;
+/// Alias for meraki_calculate_epoch_seed().
+static constexpr auto calculate_epoch_seed = meraki_calculate_epoch_seed;
 
 
 /// Calculates the epoch number out of the block number.
@@ -100,30 +100,30 @@ inline constexpr uint64_t get_full_dataset_size(int num_items) noexcept
 }
 
 /// Owned unique pointer to an epoch context.
-using epoch_context_ptr = std::unique_ptr<epoch_context, decltype(&meowpow_destroy_epoch_context)>;
+using epoch_context_ptr = std::unique_ptr<epoch_context, decltype(&meraki_destroy_epoch_context)>;
 
 using epoch_context_full_ptr =
-    std::unique_ptr<epoch_context_full, decltype(&meowpow_destroy_epoch_context_full)>;
+    std::unique_ptr<epoch_context_full, decltype(&meraki_destroy_epoch_context_full)>;
 
-/// Creates Meowpow epoch context.
+/// Creates Meraki epoch context.
 ///
-/// This is a wrapper for meowpow_create_epoch_number C function that returns
+/// This is a wrapper for meraki_create_epoch_number C function that returns
 /// the context as a smart pointer which handles the destruction of the context.
 inline epoch_context_ptr create_epoch_context(int epoch_number) noexcept
 {
-    return {meowpow_create_epoch_context(epoch_number), meowpow_destroy_epoch_context};
+    return {meraki_create_epoch_context(epoch_number), meraki_destroy_epoch_context};
 }
 
 inline epoch_context_full_ptr create_epoch_context_full(int epoch_number) noexcept
 {
-    return {meowpow_create_epoch_context_full(epoch_number), meowpow_destroy_epoch_context_full};
+    return {meraki_create_epoch_context_full(epoch_number), meraki_destroy_epoch_context_full};
 }
 
 
 inline result hash(
     const epoch_context& context, const hash256& header_hash, uint64_t nonce) noexcept
 {
-    return meowpow_hash(&context, &header_hash, nonce);
+    return meraki_hash(&context, &header_hash, nonce);
 }
 
 result hash(const epoch_context_full& context, const hash256& header_hash, uint64_t nonce) noexcept;
@@ -131,13 +131,13 @@ result hash(const epoch_context_full& context, const hash256& header_hash, uint6
 inline bool verify_final_hash(const hash256& header_hash, const hash256& mix_hash, uint64_t nonce,
     const hash256& boundary) noexcept
 {
-    return meowpow_verify_final_hash(&header_hash, &mix_hash, nonce, &boundary);
+    return meraki_verify_final_hash(&header_hash, &mix_hash, nonce, &boundary);
 }
 
 inline bool verify(const epoch_context& context, const hash256& header_hash, const hash256& mix_hash,
     uint64_t nonce, const hash256& boundary) noexcept
 {
-    return meowpow_verify(&context, &header_hash, &mix_hash, nonce, &boundary);
+    return meraki_verify(&context, &header_hash, &mix_hash, nonce, &boundary);
 }
 
 search_result search_light(const epoch_context& context, const hash256& header_hash,
@@ -153,7 +153,7 @@ search_result search(const epoch_context_full& context, const hash256& header_ha
 /// seed hash instead of epoch number to workers. This function tries to recover
 /// the epoch number from this seed hash.
 ///
-/// @param seed  Meowpow seed hash.
+/// @param seed  Meraki seed hash.
 /// @return      The epoch number or -1 if not found.
 int find_epoch_number(const hash256& seed) noexcept;
 
@@ -161,12 +161,12 @@ int find_epoch_number(const hash256& seed) noexcept;
 /// Get global shared epoch context.
 inline const epoch_context& get_global_epoch_context(int epoch_number) noexcept
 {
-    return *meowpow_get_global_epoch_context(epoch_number);
+    return *meraki_get_global_epoch_context(epoch_number);
 }
 
 /// Get global shared epoch context with full dataset initialized.
 inline const epoch_context_full& get_global_epoch_context_full(int epoch_number) noexcept
 {
-    return *meowpow_get_global_epoch_context_full(epoch_number);
+    return *meraki_get_global_epoch_context_full(epoch_number);
 }
-}  // namespace meowpow
+}  // namespace meraki

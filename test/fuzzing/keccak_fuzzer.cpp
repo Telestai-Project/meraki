@@ -1,8 +1,8 @@
-// Meowpow: C/C++ implementation of Meowpow, the Meowcoin Proof of Work algorithm.
+// Meraki: C/C++ implementation of Meraki, the Telestai Proof of Work algorithm.
 // Copyright 2018-2019 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0.
 
-#include <meowpow/keccak.h>
+#include <meraki/keccak.h>
 
 #include <cstring>
 #include <string>
@@ -30,20 +30,20 @@ int keccak_tiny_512(uint8_t* out, size_t outlen, const uint8_t* in, size_t inlen
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* input, size_t size)
 {
-    // meowpow:
+    // meraki:
 
-    const auto h256_meowpow = meowpow_keccak256(input, size);
-    const auto h512_meowpow = meowpow_keccak512(input, size);
+    const auto h256_meraki = meraki_keccak256(input, size);
+    const auto h512_meraki = meraki_keccak512(input, size);
 
 
     // tiny:
 
-    meowpow_hash256 h256_tiny;
+    meraki_hash256 h256_tiny;
     int r = keccak_tiny_256(h256_tiny.bytes, sizeof(h256_tiny), input, size);
     if (r != 0)
         __builtin_trap();
 
-    meowpow_hash512 h512_tiny;
+    meraki_hash512 h512_tiny;
     r = keccak_tiny_512(h512_tiny.bytes, sizeof(h512_tiny), input, size);
     if (r != 0)
         __builtin_trap();
@@ -53,12 +53,12 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* input, size_t size)
 
     sha3_ctx ctx;
 
-    meowpow_hash256 h256_rhash;
+    meraki_hash256 h256_rhash;
     rhash_sha3_256_init(&ctx);
     rhash_sha3_update(&ctx, input, size);
     rhash_keccak_final(&ctx, h256_rhash.bytes);
 
-    meowpow_hash512 h512_rhash;
+    meraki_hash512 h512_rhash;
     rhash_sha3_512_init(&ctx);
     rhash_sha3_update(&ctx, input, size);
     rhash_keccak_final(&ctx, h512_rhash.bytes);
@@ -66,20 +66,20 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* input, size_t size)
 
     // Compare.
 
-    if (std::memcmp(&h256_meowpow, &h256_tiny, sizeof(h256_meowpow)) != 0)
+    if (std::memcmp(&h256_meraki, &h256_tiny, sizeof(h256_meraki)) != 0)
         __builtin_trap();
 
-    if (std::memcmp(&h256_meowpow, &h256_rhash, sizeof(h256_meowpow)) != 0)
+    if (std::memcmp(&h256_meraki, &h256_rhash, sizeof(h256_meraki)) != 0)
     {
         std::cerr << "Here!";
         __builtin_trap();
     }
 
 
-    if (std::memcmp(&h512_meowpow, &h512_tiny, sizeof(h512_meowpow)) != 0)
+    if (std::memcmp(&h512_meraki, &h512_tiny, sizeof(h512_meraki)) != 0)
         __builtin_trap();
 
-    if (std::memcmp(&h512_meowpow, &h512_rhash, sizeof(h512_meowpow)) != 0)
+    if (std::memcmp(&h512_meraki, &h512_rhash, sizeof(h512_meraki)) != 0)
         __builtin_trap();
 
     return 0;

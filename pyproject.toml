@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=60"]
+requires = ["setuptools"]
 
 [tool.cibuildwheel]
 skip = "pp*"

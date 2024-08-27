@@ -1,5 +1,10 @@
 [build-system]
-requires = ["setuptools"]
+requires = [
+    'setuptools',
+    'cython',
+    'wheel'
+]
+build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
 skip = "pp*"

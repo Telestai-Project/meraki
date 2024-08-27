@@ -1,0 +1,5 @@
+[tool.cibuildwheel]
+skip = "pp*"
+
+[tool.cibuildwheel.macos.environment]
+MACOSX_DEPLOYMENT_TARGET = "10.9"  # required for full C++11 support

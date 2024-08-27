@@ -79,9 +79,9 @@ setup(
     packages=['meraki'],
     cffi_modules=['bindings/python/meraki/_build.py:ffibuilder'],
 
-    python_requires='>=3.5',
-    setup_requires=['cffi>=1.12'],
-    install_requires=['cffi>=1.12'],
+    python_requires='>=3.8',
+    setup_requires=['cffi>=1.17.0'],
+    install_requires=['cffi>=1.17.0'],
 
     test_suite='tests.test_meraki',
 

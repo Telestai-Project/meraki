@@ -1,5 +1,5 @@
 [project]
-name = "meraki"
+name = "cpp-meraki"
 version = "0.5.2"
 description =  "C/C++ implementation of Meraki - the Telestai Proof of Work algorithm"
 requires-python = ">=3.8"

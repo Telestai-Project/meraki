@@ -67,7 +67,7 @@ class build_ext(setuptools_build_ext):
 
 
 setup(
-    name='meraki',
+    name='cpp-meraki',
     version='0.5.2',
     description="C/C++ implementation of Meraki - the Telestai Proof of Work algorithm",
     url='https://github.com/Telestai-Project/meraki',

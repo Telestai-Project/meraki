@@ -71,22 +71,17 @@ setup(
     version='0.5.2',
     description="C/C++ implementation of Meraki - the Telestai Proof of Work algorithm",
     url='https://github.com/Telestai-Project/meraki',
-    author='Pawel Bylica',
-    author_email='pawel@ethereum.org',
+    author='Ahmed Bodiwala',
+    author_email='admin@multicoin.co',
     license='Apache License, Version 2.0',
-
     package_dir={'': 'bindings/python'},
     packages=['meraki'],
     cffi_modules=['bindings/python/meraki/_build.py:ffibuilder'],
-
     python_requires='>=3.8',
     setup_requires=['cffi>=1.17.0'],
     install_requires=['cffi>=1.17.0'],
-
     test_suite='tests.test_meraki',
-
     cmdclass={'build_ext': build_ext},
-
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: C',
@@ -94,6 +89,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.7'
     ],
 )
